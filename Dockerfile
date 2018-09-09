@@ -36,13 +36,15 @@ FROM debian:stable-slim
 
 COPY --from=builder /libatalk*_*-1_amd64.deb /installfiles/
 COPY --from=builder /netatalk_*-1_amd64.deb /installfiles/
+COPY --from=build /libatalk??-dbgsym_*.*.*-1_amd64.deb /installfiles/
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
-  DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade &&\
+#  DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade &&\
   DEBIAN_FRONTEND=noninteractive apt-get -y install dumb-init \
   libwrap0 \
   libldap-common \
-  libcrack2 &&\
+  libcrack2 \
+  avahi-daemon &&\
   cd /installfiles/ &&\
   dpkg -i libatalk1*-1_amd64.deb netatalk_*-1_amd64.deb &&\
   apt-get -y autoremove && \
