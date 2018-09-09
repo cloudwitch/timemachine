@@ -1,9 +1,9 @@
 FROM debian:latest AS builder
 
 RUN echo "Updating and installing dependancies of build container" &&\
-  apt-get update &&\
-#  apt-get -y full-upgrade &&\
-  apt-get -y install build-essential \
+  DEBIAN_FRONTEND=noninteractive apt-get update &&\
+#  DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade &&\
+  DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential \
   devscripts \
   debhelper \
   cdbs \
@@ -32,19 +32,27 @@ RUN echo "Updating and installing dependancies of build container" &&\
   debuild -b -uc -us
 
 
-FROM debian:latest
+FROM debian:stable-slim
 
-RUN apt-get update &&\
-  apt-get -y full-upgrade &&\
-  mkdir /installfiles
-
-
-
-COPY --from=builder /libatalk-dev_*-1_amd64.deb /installfiles/
-COPY --from=builder /libatalk18-dbgsym_*-1_amd64.deb /installfiles/
-COPY --from=builder /libatalk18_*-1_amd64.deb /installfiles/
-COPY --from=builder /netatalk-dbgsym_*-1_amd64.deb /installfiles/
-COPY --from=builder /netatalk_*-1_amd64.build /installfiles/
+COPY --from=builder /libatalk*_*-1_amd64.deb /installfiles/
 COPY --from=builder /netatalk_*-1_amd64.deb /installfiles/
 
-RUN ls -al /installfiles
+RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
+  DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade &&\
+  DEBIAN_FRONTEND=noninteractive apt-get -y install dumb-init &&\
+  mkdir /installfiles &&\
+  cd /installfiles/ &&\
+  dpkg -i libatalk1*-1_amd64.deb netatalk_*-1_amd64.deb &&\
+  apt-get -y autoremove && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/
+
+
+
+# Runs "/usr/bin/dumb-init -- /my/script --with --args"
+#ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+
+# or if you use --rewrite or other cli flags
+# ENTRYPOINT ["dumb-init", "--rewrite", "2:3", "--"]
+
+#CMD ["/my/script", "--with", "--args"]
