@@ -46,7 +46,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
   libwrap0 \
   libldap-common \
   libcrack2 \
-  avahi-daemon &&\
+  avahi-daemon \
   libavahi-client3 &&\
   cd /installfiles/ &&\
   dpkg -i libatalk*_*-1_amd64.deb netatalk_*-1_amd64.deb &&\
