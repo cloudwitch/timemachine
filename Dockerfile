@@ -28,7 +28,7 @@ RUN echo "Updating and installing dependancies of build container" &&\
   echo "https://techsmix.net/timemachine-backups-debian-8-jessi/" &&\
   git clone  https://github.com/adiknoth/netatalk-debian &&\
   cd netatalk-debian &&\
-  echo "Compiling " &&\
+  echo "Compiling" &&\
   debuild -b -uc -us
 
 
@@ -39,14 +39,15 @@ COPY --from=builder /netatalk_*-1_amd64.deb /installfiles/
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade &&\
-  DEBIAN_FRONTEND=noninteractive apt-get -y install dumb-init &&\
+  DEBIAN_FRONTEND=noninteractive apt-get -y install dumb-init \
+  libwrap0 \
+  libldap-common \
+  libcrack2 &&\
   cd /installfiles/ &&\
   dpkg -i libatalk1*-1_amd64.deb netatalk_*-1_amd64.deb &&\
   apt-get -y autoremove && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/
-
-
 
 # Runs "/usr/bin/dumb-init -- /my/script --with --args"
 #ENTRYPOINT ["/usr/bin/dumb-init", "--"]
