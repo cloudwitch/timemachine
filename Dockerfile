@@ -37,7 +37,7 @@ FROM debian:stable-slim
 
 COPY --from=builder /libatalk*_*-1_amd64.deb /installfiles/
 COPY --from=builder /netatalk_*-1_amd64.deb /installfiles/
-COPY --from=build /libatalk18-dbgsym_*.*.*-1_amd64.deb /installfiles/
+COPY --from=builder /libatalk18-dbgsym_*-1_amd64.deb /installfiles/
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
 #  DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade &&\
