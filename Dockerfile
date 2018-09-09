@@ -23,12 +23,13 @@ RUN echo "Updating and installing dependancies of build container" &&\
   libevent-dev \
   d-shlibs \
   dh-systemd \
-  git &&\
+  git \
+  figlet &&\
   echo "Cloning netalk repo" &&\
   echo "https://techsmix.net/timemachine-backups-debian-8-jessi/" &&\
   git clone  https://github.com/adiknoth/netatalk-debian &&\
   cd netatalk-debian &&\
-  echo "Compiling" &&\
+  figlet "Compiling" &&\
   debuild -b -uc -us &&\
   ls -alh /
 
@@ -46,6 +47,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
   libldap-common \
   libcrack2 \
   avahi-daemon &&\
+  libavahi-client3 &&\
   cd /installfiles/ &&\
   dpkg -i libatalk*_*-1_amd64.deb netatalk_*-1_amd64.deb &&\
   apt-get -y autoremove && \
