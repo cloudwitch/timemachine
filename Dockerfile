@@ -29,14 +29,15 @@ RUN echo "Updating and installing dependancies of build container" &&\
   git clone  https://github.com/adiknoth/netatalk-debian &&\
   cd netatalk-debian &&\
   echo "Compiling" &&\
-  debuild -b -uc -us
+  debuild -b -uc -us &&\
+  ls -alh /
 
 
 FROM debian:stable-slim
 
 COPY --from=builder /libatalk*_*-1_amd64.deb /installfiles/
 COPY --from=builder /netatalk_*-1_amd64.deb /installfiles/
-COPY --from=build /libatalk??-dbgsym_*.*.*-1_amd64.deb /installfiles/
+COPY --from=build /libatalk18-dbgsym_*.*.*-1_amd64.deb /installfiles/
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
 #  DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade &&\
@@ -46,7 +47,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
   libcrack2 \
   avahi-daemon &&\
   cd /installfiles/ &&\
-  dpkg -i libatalk1*-1_amd64.deb netatalk_*-1_amd64.deb &&\
+  dpkg -i libatalk*_*-1_amd64.deb netatalk_*-1_amd64.deb &&\
   apt-get -y autoremove && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/
