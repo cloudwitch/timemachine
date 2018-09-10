@@ -2,7 +2,7 @@ FROM debian:latest AS builder
 
 RUN echo "Updating and installing dependancies of build container" &&\
   DEBIAN_FRONTEND=noninteractive apt-get update &&\
-#  DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade &&\
+  DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade &&\
   DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential \
   devscripts \
   debhelper \
@@ -85,19 +85,11 @@ FROM debian:stable-slim
 COPY --from=builder /libatalk*_*-1_amd64.deb /installfiles/
 COPY --from=builder /netatalk_*-1_amd64.deb /installfiles/
 COPY --from=builder /libatalk18-dbgsym_*-1_amd64.deb /installfiles/
+COPY afp.conf /etc/netatalk/afp.conf
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
-#  DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade &&\
-  DEBIAN_FRONTEND=noninteractive apt-get -y install dumb-init \
-  libwrap0 \
-  libldap-common \
-  libcrack2 \
-  avahi-daemon \
-  libavahi-client3 \
-  libldap-common \
-  slapd \
-  libevent-dev \
-  python &&\
+  DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade &&\
+  DEBIAN_FRONTEND=noninteractive apt-get -y install dumb-init libwrap0 libldap-common libcrack2 avahi-daemon libavahi-client3 libldap-common slapd libevent-dev python &&\
   cd /installfiles/ &&\
   dpkg -i libatalk18_3.*-1_amd64.deb netatalk_*-1_amd64.deb &&\
   apt-get -y autoremove && \
