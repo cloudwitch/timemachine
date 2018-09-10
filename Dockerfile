@@ -31,7 +31,8 @@ RUN echo "Updating and installing dependancies of build container" &&\
   cd netatalk-debian &&\
   figlet "Compiling" &&\
   debuild -b -uc -us &&\
-  ls -alh /
+  ls -alh &&\
+  figlet "Starting Build"
 
 
 FROM debian:stable-slim
@@ -50,7 +51,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
   libavahi-client3 \
   libldap-common \
   slapd \
-  libevent-dev &&\
+  libevent-dev \
+  python &&\
   cd /installfiles/ &&\
   dpkg -i libatalk18_3.*-1_amd64.deb netatalk_*-1_amd64.deb &&\
   apt-get -y autoremove && \
