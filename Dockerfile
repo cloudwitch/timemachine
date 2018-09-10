@@ -40,7 +40,6 @@ FROM debian:stable-slim
 COPY --from=builder /libatalk*_*-1_amd64.deb /installfiles/
 COPY --from=builder /netatalk_*-1_amd64.deb /installfiles/
 COPY --from=builder /libatalk18-dbgsym_*-1_amd64.deb /installfiles/
-COPY afp.conf /etc/netatalk/afp.conf
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade &&\
@@ -50,6 +49,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
   apt-get -y autoremove && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/
+
+COPY afp.conf /etc/netatalk/afp.conf
 
 # Runs "/usr/bin/dumb-init -- /my/script --with --args"
 #ENTRYPOINT ["/usr/bin/dumb-init", "--"]
