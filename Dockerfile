@@ -30,7 +30,7 @@ RUN echo "Updating and installing dependancies of build container" &&\
   git clone  https://github.com/adiknoth/netatalk-debian &&\
   cd netatalk-debian &&\
   figlet "Compiling" &&\
-  cat << "EOF"
+cat << "EOF" \
                               `.                                       
                             #:   @                                     
                            @      @                                    
