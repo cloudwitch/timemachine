@@ -49,7 +49,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
   avahi-daemon \
   libavahi-client3 \
   libldap-common \
-  slapd &&\
+  slapd \
+  libevent-dev &&\
   cd /installfiles/ &&\
   dpkg -i libatalk18_3.*-1_amd64.deb netatalk_*-1_amd64.deb &&\
   apt-get -y autoremove && \
