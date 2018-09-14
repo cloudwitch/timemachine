@@ -43,7 +43,7 @@ COPY --from=builder /libatalk18-dbgsym_*-1_amd64.deb /installfiles/
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade &&\
-  DEBIAN_FRONTEND=noninteractive apt-get -y install dumb-init libwrap0 libldap-common libcrack2 avahi-daemon libavahi-client3 libldap-common slapd libevent-dev python &&\
+  DEBIAN_FRONTEND=noninteractive apt-get -y install dumb-init libwrap0 libldap-common libcrack2 libldap-common slapd libevent-dev python &&\
   cd /installfiles/ &&\
   dpkg -i libatalk18_3.*-1_amd64.deb netatalk_*-1_amd64.deb &&\
   apt-get -y autoremove && \
