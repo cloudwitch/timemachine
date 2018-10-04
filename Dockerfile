@@ -49,7 +49,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
   dpkg -i libatalk18_3.*-1_amd64.deb netatalk_*-1_amd64.deb &&\
   apt-get -y autoremove && \
   apt-get clean && \
-  rm -rf /var/lib/apt/lists/
+  rm -rf /var/lib/apt/lists/ &&\
+  touch /var/log/netatalk.log
 
 COPY afp.conf /etc/netatalk/afp.conf
 
