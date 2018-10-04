@@ -1,18 +1,18 @@
 #!/bin/bash
 
 # Start the first process
-./my_first_process -D
+/usr/sbin/netatalk
 status=$?
 if [ $status -ne 0 ]; then
-  echo "Failed to start my_first_process: $status"
+  echo "Failed to start netatalk: $status"
   exit $status
 fi
 
 # Start the second process
-./my_second_process -D
+tail -f /var/log/netatalk.log
 status=$?
 if [ $status -ne 0 ]; then
-  echo "Failed to start my_second_process: $status"
+  echo "Failed to start tail log: $status"
   exit $status
 fi
 
@@ -23,9 +23,9 @@ fi
 # Otherwise it loops forever, waking up every 60 seconds
 
 while sleep 60; do
-  ps aux |grep my_first_process |grep -q -v grep
+  ps aux |grep netatalk |grep -q -v grep
   PROCESS_1_STATUS=$?
-  ps aux |grep my_second_process |grep -q -v grep
+  ps aux |grep tail |grep -q -v grep
   PROCESS_2_STATUS=$?
   # If the greps above find anything, they exit with 0 status
   # If they are not both 0, then something is wrong

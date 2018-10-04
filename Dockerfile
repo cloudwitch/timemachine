@@ -40,7 +40,7 @@ FROM debian:stable-slim
 COPY --from=builder /libatalk*_*-1_amd64.deb /installfiles/
 COPY --from=builder /netatalk_*-1_amd64.deb /installfiles/
 COPY --from=builder /libatalk18-dbgsym_*-1_amd64.deb /installfiles/
-COPY foreground.sh /foreground.sh
+COPY scripts/* /usr/bin/
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade &&\
@@ -66,4 +66,4 @@ ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 # ENTRYPOINT ["dumb-init", "--rewrite", "2:3", "--"]
 
 
-CMD ["/foreground.sh"]
+CMD ["/usr/bin/start"]
