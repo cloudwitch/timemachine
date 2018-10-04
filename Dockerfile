@@ -35,7 +35,7 @@ RUN echo "Updating and installing dependancies of build container" &&\
   figlet "Starting Build"
 
 
-FROM debian:stable-slim
+FROM pheonix991/debian-9-baseimage:latest
 
 ENV DEBIAN_FRONTEND="noninteractive"
 
@@ -46,12 +46,20 @@ COPY scripts/* /usr/bin/
 
 RUN apt-get update &&\
   apt-get -y full-upgrade &&\
-  apt-get -y install procps htop dumb-init libwrap0 libldap-common libcrack2 avahi-daemon libavahi-client3 libldap-common slapd libevent-dev python &&\
+  apt-get -y install procps \
+  libwrap0 \
+  libldap-common \
+  libcrack2 \
+  avahi-daemon \
+  libavahi-client3 \
+  libldap-common \
+  slapd libevent-dev \
+  python &&\
   cd /installfiles/ &&\
   dpkg -i libatalk18_3.*-1_amd64.deb netatalk_*-1_amd64.deb &&\
   apt-get -y autoremove && \
   apt-get clean && \
-  rm -rf /var/lib/apt/lists/ &&\
+  rm -rf /var/lib/apt/lists/ /installfiles &&\
   touch /var/log/netatalk.log
 
 COPY afp.conf /etc/netatalk/afp.conf
@@ -59,13 +67,8 @@ COPY afp.conf /etc/netatalk/afp.conf
 
 EXPOSE 548 636
 
-VOLUME ["/timemachine"]
+VOLUME ["/timemachine", "/etc/netatalk"]
 
-# Runs "/usr/bin/dumb-init -- /my/script --with --args"
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-
-# or if you use --rewrite or other cli flags
-# ENTRYPOINT ["dumb-init", "--rewrite", "2:3", "--"]
-
+ENTRYPOINT ["/init"]
 
 CMD ["/usr/bin/start"]
