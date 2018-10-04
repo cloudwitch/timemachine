@@ -40,6 +40,7 @@ FROM debian:stable-slim
 COPY --from=builder /libatalk*_*-1_amd64.deb /installfiles/
 COPY --from=builder /netatalk_*-1_amd64.deb /installfiles/
 COPY --from=builder /libatalk18-dbgsym_*-1_amd64.deb /installfiles/
+COPY foreground.sh /foreground.sh
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade &&\
@@ -58,10 +59,10 @@ EXPOSE 548 636
 VOLUME ["/timemachine"]
 
 # Runs "/usr/bin/dumb-init -- /my/script --with --args"
-# ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
 # or if you use --rewrite or other cli flags
 # ENTRYPOINT ["dumb-init", "--rewrite", "2:3", "--"]
 
 
-CMD ["/usr/sbin/netatalk"]
+CMD ["/foreground.sh"]
