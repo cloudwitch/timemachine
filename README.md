@@ -11,7 +11,7 @@ docker run -h timemachine --name timemachine --restart=always -d -v /<external_v
 
 ### Setup
 
-### Step 1: `docker`
+### Step 1: `docker run`
 
 ```
 docker run -h timemachine --name timemachine --restart=always -d -v /<external_volume>:/timemachine -it -p 548:548 -p 636:636 --ulimit nofile=65536:65536 pheonix991/timemachine:latest
@@ -88,5 +88,3 @@ This container is built as a two stage build.  First stage for compiling  [netat
 * Rebuild of [odarriba's container](https://github.com/odarriba/docker-timemachine).  Also borrowed documentation.
 * Built with help from [TechsMix' guide](https://techsmix.net/timemachine-backups-debian-8-jessi/).
 * Compiled netatalk from [netatalk-debian](https://github.com/adiknoth/netatalk-debian).
-
-
