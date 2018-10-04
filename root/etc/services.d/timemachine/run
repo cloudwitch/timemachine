@@ -1,0 +1,6 @@
+#!/usr/bin/with-contenv bash
+
+echo "Starting Time Machine."
+exec \
+    s6-setuidgid abc /bin/bash -c \
+    '/usr/sbin/netatalk'

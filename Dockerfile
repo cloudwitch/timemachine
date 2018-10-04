@@ -1,9 +1,11 @@
 FROM debian:latest AS builder
 
+ENV DEBIAN_FRONTEND="noninteractive"
+
 RUN echo "Updating and installing dependancies of build container" &&\
-  DEBIAN_FRONTEND=noninteractive apt-get update &&\
-  DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade &&\
-  DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential \
+  apt-get update &&\
+  apt-get -y full-upgrade &&\
+  apt-get -y install build-essential \
   devscripts \
   debhelper \
   cdbs \
@@ -63,12 +65,9 @@ RUN apt-get update &&\
   touch /var/log/netatalk.log
 
 COPY afp.conf /etc/netatalk/afp.conf
+COPY root/ /
 
 
 EXPOSE 548 636
 
 VOLUME ["/timemachine", "/etc/netatalk"]
-
-ENTRYPOINT ["/init"]
-
-CMD ["/usr/bin/start"]
