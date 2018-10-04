@@ -43,7 +43,7 @@ COPY --from=builder /libatalk18-dbgsym_*-1_amd64.deb /installfiles/
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade &&\
-  DEBIAN_FRONTEND=noninteractive apt-get -y install dumb-init libwrap0 libldap-common libcrack2 avahi-daemon libavahi-client3 libldap-common slapd libevent-dev python &&\
+  DEBIAN_FRONTEND=noninteractive apt-get -y install htop dumb-init libwrap0 libldap-common libcrack2 avahi-daemon libavahi-client3 libldap-common slapd libevent-dev python &&\
   cd /installfiles/ &&\
   dpkg -i libatalk18_3.*-1_amd64.deb netatalk_*-1_amd64.deb &&\
   apt-get -y autoremove && \
@@ -52,10 +52,16 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
 
 COPY afp.conf /etc/netatalk/afp.conf
 
+
+EXPOSE 548 636
+
+VOLUME ["/timemachine"]
+
 # Runs "/usr/bin/dumb-init -- /my/script --with --args"
 # ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
 # or if you use --rewrite or other cli flags
 # ENTRYPOINT ["dumb-init", "--rewrite", "2:3", "--"]
+
 
 CMD ["/usr/sbin/netatalk"]
