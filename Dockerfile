@@ -37,14 +37,16 @@ RUN echo "Updating and installing dependancies of build container" &&\
 
 FROM debian:stable-slim
 
+ENV DEBIAN_FRONTEND="noninteractive"
+
 COPY --from=builder /libatalk*_*-1_amd64.deb /installfiles/
 COPY --from=builder /netatalk_*-1_amd64.deb /installfiles/
 COPY --from=builder /libatalk18-dbgsym_*-1_amd64.deb /installfiles/
 COPY scripts/* /usr/bin/
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
-  DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade &&\
-  DEBIAN_FRONTEND=noninteractive apt-get -y install procps htop dumb-init libwrap0 libldap-common libcrack2 avahi-daemon libavahi-client3 libldap-common slapd libevent-dev python &&\
+RUN apt-get update &&\
+  apt-get -y full-upgrade &&\
+  apt-get -y install procps htop dumb-init libwrap0 libldap-common libcrack2 avahi-daemon libavahi-client3 libldap-common slapd libevent-dev python &&\
   cd /installfiles/ &&\
   dpkg -i libatalk18_3.*-1_amd64.deb netatalk_*-1_amd64.deb &&\
   apt-get -y autoremove && \
