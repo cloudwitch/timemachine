@@ -4,7 +4,8 @@ COPY root/ /
 
 RUN apk add --no-cache netatalk &&\
   touch /netatalk.log &&\
-  mkdir /timemachine
+  mkdir /timemachine &&\
+  chmod 777 /var/lock
 
 EXPOSE 548 636
 
