@@ -4,8 +4,9 @@ COPY root/ /
 
 RUN apk add --no-cache netatalk &&\
   touch /netatalk.log &&\
+  touch /var/netatalk/afp_signature.conf &&\
   mkdir /timemachine  /var/netatalk &&\
-  chmod 777 /var/lock /var/netatalk
+  chmod 777 /var/lock /var/netatalk/afp_signature.conf
 
 EXPOSE 548 636
 
