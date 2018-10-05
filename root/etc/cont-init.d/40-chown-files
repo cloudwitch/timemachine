@@ -3,7 +3,7 @@
 # create folders
 if [ ! -d "/timemachine" ]; then \
 mkdir -p "/timemachine"
-chown -R abc:abc /timemachine /config /var/log/netatalk.log
+chown -R abc:abc /timemachine /config /netatalk.log
 fi
 
 # check Library permissions
@@ -12,14 +12,14 @@ if [ ! "$(stat -c %u /config)" = "$PUID" ]; then
 	echo "Change in ownership detected, please be patient while we chown existing files"
 	echo "This could take some time"
 	chown abc:abc -R \
-	/config /var/log/netatalk.log
+	/config /netatalk.log
 fi
 
 if [ ! "$(stat -c %u /timemachine)" = "$PUID" ]; then
 	echo "Change in ownership detected, please be patient while we chown existing files"
 	echo "This could take some time"
 	chown abc:abc -R \
-	/timemachine /var/log/netatalk.log
+	/timemachine /netatalk.log
 fi
 
 # permissions (non-recursive) on config root and folders
