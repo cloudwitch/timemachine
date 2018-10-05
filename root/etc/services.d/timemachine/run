@@ -3,4 +3,4 @@
 echo "Starting Time Machine."
 exec \
     s6-setuidgid abc /bin/bash -c \
-    '/usr/sbin/netatalk -d'
+    '/usr/sbin/netatalk -F /config/afp.conf'

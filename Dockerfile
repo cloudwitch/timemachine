@@ -44,7 +44,7 @@ ENV DEBIAN_FRONTEND="noninteractive"
 COPY --from=builder /libatalk*_*-1_amd64.deb /installfiles/
 COPY --from=builder /netatalk_*-1_amd64.deb /installfiles/
 COPY --from=builder /libatalk18-dbgsym_*-1_amd64.deb /installfiles/
-COPY scripts/* /usr/bin/
+COPY root/ /
 
 RUN apt-get update &&\
   apt-get -y full-upgrade &&\
@@ -64,10 +64,6 @@ RUN apt-get update &&\
   rm -rf /var/lib/apt/lists/ /installfiles &&\
   touch /var/log/netatalk.log
 
-COPY afp.conf /etc/netatalk/afp.conf
-COPY root/ /
-
-
 EXPOSE 548 636
 
-VOLUME ["/timemachine", "/etc/netatalk"]
+VOLUME ["/timemachine", "/config"]

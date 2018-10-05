@@ -1,0 +1,31 @@
+#!/usr/bin/with-contenv bash
+
+# create folders
+if [ ! -d "/timemachine" ]; then \
+mkdir -p "/timemachine"
+chown -R abc:abc /timemachine
+chown -R abc:abc /config
+fi
+
+# check Library permissions
+PUID=${PUID:-911}
+if [ ! "$(stat -c %u /config)" = "$PUID" ]; then
+	echo "Change in ownership detected, please be patient while we chown existing files"
+	echo "This could take some time"
+	chown abc:abc -R \
+	/config
+fi
+
+if [ ! "$(stat -c %u /timemachine)" = "$PUID" ]; then
+	echo "Change in ownership detected, please be patient while we chown existing files"
+	echo "This could take some time"
+	chown abc:abc -R \
+	/timemachine
+fi
+
+# permissions (non-recursive) on config root and folders
+chown abc:abc \
+	/config \
+	/config/*\
+	/timemachine \
+	/timemachine/*
