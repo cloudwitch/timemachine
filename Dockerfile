@@ -61,9 +61,12 @@ RUN apt-get update &&\
   dpkg -i libatalk18_3.*-1_amd64.deb netatalk_*-1_amd64.deb &&\
   apt-get -y autoremove && \
   apt-get clean && \
+  cd / \
   rm -rf /var/lib/apt/lists/ /installfiles &&\
   touch /var/log/netatalk.log
 
 EXPOSE 548 636
 
 VOLUME ["/timemachine", "/config"]
+
+CMD [ "tail", "-f", "/var/log/netatalk.log" ]
