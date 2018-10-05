@@ -34,11 +34,11 @@ echo $1:$2 | chpasswd
     path = ${4}
     time machine = yes
     valid users = ${1}
-    spotlight = no" >> /etc/afp.conf
+    spotlight = no" >> /config/afp.conf
 
 if [[ $# -eq 5 ]]; then
   echo "
-    vol size limit = ${5}" >> /etc/afp.conf
+    vol size limit = ${5}" >> /config/afp.conf
 fi
 
 pkill -HUP afpd

@@ -27,4 +27,4 @@ chown abc:abc \
 	/config \
 	/config/*\
 	/timemachine \
-	/var/log/netatalk.log
+	/netatalk.log
