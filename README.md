@@ -19,7 +19,7 @@ Everything from here on is only to be done once for setup.
 To add a user, run:
 
 ```
-$ docker run -it --rm -v /storage/docker/timemachine/data:/timemachine -v /storage/docker/timemachine/config:/config -p 548:548 -p 636:636 --ulimit nofile=65536:65536 pheonix991/timemachine:alpine USERNAME PASSWORD VOL_NAME VOL_ROOT [VOL_SIZE_MB]
+$ docker run -it --rm -v /storage/docker/timemachine/data:/timemachine -v /storage/docker/timemachine/config:/config -p 548:548 -p 636:636 --ulimit nofile=65536:65536 pheonix991/timemachine:alpine USERNAME <doesn't matter, you're going pass through /etc/shadow later> VOL_NAME VOL_ROOT [VOL_SIZE_MB]
 ```
 
 Or, if you want to add a user with a specific UID/GID, use the following format:
@@ -33,10 +33,10 @@ But take care that:
 * `VOL_ROOT` should be an absolute path, preferably a sub-path of `/timemachine` (e.g., `/timemachine/backup`), so it will be stored in the according sub-path of your external volume.
 * `VOL_SIZE_MB` is an optional parameter. It indicates the max volume size for that user.
 
-### Step 2: `docker run`
+### Step 2: `docker-compose up`
 
 ```
-docker run -h timemachine --name timemachine --restart=always -d -v /<external_volume>:/timemachine /<external_volume2>:/config -it -p 548:548 -p 636:636 --ulimit nofile=65536:65536 pheonix991/timemachine:alpine
+docker-compose up
 ```
 
 ### Step 3: Enable Auto Discovery(OPTIONAL)
