@@ -26,6 +26,8 @@ services:
       - type: bind
         source: /storage/docker/timemachine/config
         target: /config
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/shadow:/etc/shadow:ro
     environment:
       - PUID=10101
       - GUID=10101
