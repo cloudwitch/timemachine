@@ -6,7 +6,7 @@ This is a Docker container for self hosting a [Time Machine](https://en.wikipedi
 
 Quickstart:
 ```
-docker run -h timemachine --name timemachine --restart=always -d -v /<external_volume>:/timemachine -it -p 548:548 -p 636:636 --ulimit nofile=65536:65536 pheonix991/timemachine:latest
+docker run -h timemachine --name timemachine --restart=always -d -v /<external_volume>:/timemachine -it -p 548:548 -p 636:636 --ulimit nofile=65536:65536 pheonix991/timemachine:alpine
 ```
 
 ### Setup
