@@ -1,0 +1,37 @@
+version: "3.4"
+services:
+  timemachine:
+    image: pheonix991/timemachine:alpine
+    ports:
+      - 548:548
+      - 636:636
+    networks:
+      - timemachine
+    dns:
+      - 192.168.1.7
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          memory: 8G
+    volumes:
+      - type: bind
+        source: /storage/docker/timemachine/data
+        target: /timemachine
+      - type: bind
+        source: /storage/docker/timemachine/config
+        target: /config
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/shadow:/etc/shadow:ro
+    environment:
+      - PUID=10101
+      - GUID=10101
+      - TZ=America/Chicago
+
+networks:
+  timemachine:

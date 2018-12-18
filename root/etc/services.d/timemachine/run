@@ -1,0 +1,5 @@
+#!/usr/bin/with-contenv bash
+
+echo "Starting Time Machine."
+exec \
+    /usr/sbin/netatalk -d -F /config/afp.conf
